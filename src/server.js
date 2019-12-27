@@ -1,13 +1,24 @@
 const express = require('express')
 const bodyParser = require('body-parser')
+const config = require('./config/config')
 const app = express()
-const port = process.env.PORT || 5000
+const {sequelize} = require('./models')
 
-require('./routes')(app)
+const port = process.env.PORT || config.port
 
+// เอา middleware ไว้ก่อน router นะ เพราะ 
+// ให้มันผ่าน middle ก่อนไป router
+// ไม่งั้น routes เราจะใช้ req.body ของ bodyParser ไม่ได้ 
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({extended : true}))
 
+require('./routes')(app)
 
-app.listen(port,()=> console.log(`Server on ${port}`))
 
+
+
+sequelize.sync({force:false}).then(()=>{
+    app.listen(port,()=>{
+        console.log(`Server on ${port}`);
+    });
+});
