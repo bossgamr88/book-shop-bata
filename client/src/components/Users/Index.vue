@@ -23,7 +23,11 @@
 		async created(){
 			// let results = (await UsersService.index()).data
 			// console.log(results)
-			this.users = (await UsersService.index()).data
+			try {
+				this.users = (await UsersService.index()).data
+			} catch(error) {	
+				console.log(error);
+			}
 		},
 		methods : {
 			navigateTo (route){
