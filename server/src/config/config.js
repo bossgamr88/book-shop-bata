@@ -9,6 +9,9 @@ module.exports = {
             storage : './blogDb-db.sqlite'
         }
     },
+    authentication: {
+        jwtSecret: 'roze'
+  }
 }
 
 
