@@ -27,7 +27,7 @@
 		},
 		methods : {
 			async createUser(){
-				try {
+				try {	
 					await UsersService.post(this.user)
 					this.$router.push({
 						name : 'users'
