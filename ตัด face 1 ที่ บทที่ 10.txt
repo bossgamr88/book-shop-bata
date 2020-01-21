@@ -1,0 +1,26 @@
+
+
+1.set Web Server 
+
+2.ทำ RESTful API back-end
+
+3.วางโครงสร้าง MVC สร้าง  Controller เเละ Router  
+
+4.ทำ Database เเละ Modle
+
+5.ทำ CURD back-end
+
+6.set vue ทำ back-office 
+
+7.ติดต่อ Back-end ผ่าน Font-end 
+
+8.ทำ Service API ใช้งาน 
+
+9.จัดการ Permission 
+   
+10.จัดระเบียบ Front-End  ยังไม่เสร็จ ต่อที่ หน้า 212 
+ 
+ต่อหน้าที่ 212 เลย
+
+-------------------
+ผมจะเริ่ม ทำ API ก่อน เเละ ต่อกับ Router เเละทำ CRUD ต่อด้วยต่อ Router Font 
