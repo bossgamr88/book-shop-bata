@@ -77,7 +77,6 @@ export default new Router({
       name: 'comments',
       component: CommentIndex
     },
-
   ]
 })
 
