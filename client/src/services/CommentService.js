@@ -7,16 +7,16 @@ export default {
 		// http://localhost:5000/comments
 		return Api().get('comments')
 	},
-	show (blogId) {
+	show (commentId) {
 		return Api().get('comment/'+commentId)
 	},
-	post (blog) {
+	post (comment) {
 		return Api().post('comment',comment)
 	},
-	put (blog) {
+	put (comment) {
 		return Api().put('comment/'+comment.id,comment)
 	},
-	delete (blog) {
+	delete (comment) {
 		return Api().delete('comment/'+comment.id,comment)
 	},
 }

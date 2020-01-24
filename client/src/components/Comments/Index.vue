@@ -7,12 +7,12 @@
     <p>id: {{ comment.id }}</p>
     <p>blogId: {{ comment.blogId }}</p>
     <p>comment : {{comment.comment}}</p>
-    <p>
+<!--     <p>
       <button v-on:click="navigateTo('/comment/'+ comment.id)">ดู comment</button>
       <button v-on:click="deleteBlog(comment)">ลบข้อมูล</button>
-    </p>
+    </p> -->
 	</div>
-
+</div>
 </template>
 <script>
 	import CommentService from '@/services/CommentService'
@@ -20,6 +20,13 @@
 		data(){
 			return{
 				comments : []
+			}
+		},
+		async created(){
+			try {
+				this.comments = (await CommentService.index()).data
+			} catch(error) {	
+				console.log(error);
 			}
 		},
 		methods: {
@@ -37,7 +44,7 @@
 		    let result = confirm("Want to delete?")
 		    if (result) {
 		      try {
-		        await BlogsService.delete(comment)
+		        await CommentService.delete(comment)
 		        this.refreshData()
 		      } catch (err) {
 		        console.log(err)
@@ -46,8 +53,7 @@
 		  },
 		  async refreshData() {
 		    this.comments = (await CommentService.index()).data
-		 }
-
-	
+		 }	
 	}
+}	
 </script>
