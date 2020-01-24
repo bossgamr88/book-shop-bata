@@ -5,7 +5,7 @@
       <li><router-link :to="{name: 'users'}" >Users</router-link></li>
       <li><router-link :to="{name: 'comments'}" >Comments</router-link></li>
       <li><router-link :to="{name: 'login'}" >Login</router-link></li>
-      <!-- <li><router-link :to="{name: 'logout'}" >Logout</router-link></li> -->
+      <li><router-link :to="{name: 'logout'}" >Logout</router-link></li>
 		</ul>
 		<div class="clearfix"></div>
 	</div>
@@ -13,7 +13,15 @@
 
 <script>
 	export default {
-		
+		methods : {
+			logout(){
+			this.$store.dispatch('setToken',null)
+			this.$store.dispatch('setUser',null)
+			this.$router.push({
+				name : 'login'
+			})
+		}
+		}
 	}
 	
 </script>

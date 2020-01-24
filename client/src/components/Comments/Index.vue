@@ -1,7 +1,7 @@
 <template>
 	<div>
 		<h2>Get all Comments</h2>
-	<p><button v-on:click="logout">Logout</button></p>	
+<!-- 	<p><button v-on:click="logout">Logout</button></p>	 -->
 	<h4>จำนวน Comment {{comments.length}}</h4>
 	 <div v-for="comment in comments" v-bind:key="comment.id">
     <p>id: {{ comment.id }}</p>
@@ -30,13 +30,13 @@
 			}
 		},
 		methods: {
-		  logout () {
-		    this.$store.dispatch('setToken', null)
-		    this.$store.dispatch('setBlog', null)
-		    this.$router.push({
-		      name: 'login'
-		    })
-		  },
+		  // logout () {
+		  //   this.$store.dispatch('setToken', null)
+		  //   this.$store.dispatch('setBlog', null)
+		  //   this.$router.push({
+		  //     name: 'login'
+		  //   })
+		  // },
 		  navigateTo (route) {
 		    this.$router.push(route)
 		},
