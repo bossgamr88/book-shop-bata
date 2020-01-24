@@ -1,0 +1,22 @@
+// @ หมายถึง อ้างอิงถึง Folder scr 
+import Api from '@/services/Api'
+// Api = baseURL ที่ return เป็น function ออกมา
+// Api = http://localhost:5000/ จาก Server
+export default {
+	index () {
+		// http://localhost:5000/comments
+		return Api().get('comments')
+	},
+	show (blogId) {
+		return Api().get('comment/'+commentId)
+	},
+	post (blog) {
+		return Api().post('comment',comment)
+	},
+	put (blog) {
+		return Api().put('comment/'+comment.id,comment)
+	},
+	delete (blog) {
+		return Api().delete('comment/'+comment.id,comment)
+	},
+}
