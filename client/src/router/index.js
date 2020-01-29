@@ -16,16 +16,22 @@ import BlogCreate from '@/components/Blogs/CreateBlog'
 import BlogEdit from '@/components/Blogs/EditBlog'
 
 
+// Upload Testing
+import Upload from '@/components/Utils/Upload'
+
 
 Vue.use(Router)
 
 export default new Router({
   mode : 'history',
   routes: [
+
     {
       // path: '/',
       // name: 'HelloWorld',
       // component: HelloWorld
+
+       // user
       path: '/users',
       name: 'users',
       component: UserIndex
@@ -72,10 +78,17 @@ export default new Router({
       name: 'blog',
       component: BlogShow
     },
+      // comments
     {
       path: '/comments',
       name: 'comments',
       component: CommentIndex
+    },
+        // upload testing
+    {
+      path: '/upload',
+      name: 'upload',
+      component: Upload
     },
   ]
 })
