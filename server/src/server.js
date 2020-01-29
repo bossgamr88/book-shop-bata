@@ -1,9 +1,10 @@
 const express = require('express')
 const bodyParser = require('body-parser')
+const {sequelize} = require('./models')
 const cors = require('cors')
 const config = require('./config/config')
 const app = express()
-const {sequelize} = require('./models')
+
 
 const port = process.env.PORT || config.port
 
@@ -17,7 +18,7 @@ require('./userPassport')
 require('./routes')(app)
 
 
-
+app.use('/assets', express.static('public'))
 
 sequelize.sync({force:false}).then(()=>{
     app.listen(port,()=>{
