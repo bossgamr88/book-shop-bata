@@ -1,4 +1,5 @@
-
+ปล. face 1 ไม่ได้ Comment  ตาม git hub  ตาม อาจารย์
+เเต่ face 2 จะ commit ตาม อาจารย์
 
 1.set Web Server 
 
