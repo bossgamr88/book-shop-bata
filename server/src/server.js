@@ -20,6 +20,7 @@ require('./routes')(app)
 
 app.use('/assets', express.static('public'))
 
+// ถ้า force เป็น ture มันจะ reset (clear) ข้อมูลเป็น 0 ทุกครั้ง 
 sequelize.sync({force:false}).then(()=>{
     app.listen(port,()=>{
         console.log(`Server on ${port}`);
