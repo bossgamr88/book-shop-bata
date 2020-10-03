@@ -1,14 +1,47 @@
 const {Blog} = require('../models')
 
 module.exports = {
+
+	
 	// get all blog
 	async index (req,res) {
+		// try {
+		// 	const blogs = await Blog.findAll()
+		// 	res.send(blogs)
+		// } catch(error) {
+		// 	res.status(500).send({
+		// 		error : 'Blog Information Error'
+		// 	})
+		// }
+
+		// index with search blog 
 		try {
-			const blogs = await Blog.findAll()
-			res.send(blogs)
-		} catch(error) {
-			res.status(500).send({
-				error : 'Blog Information Error'
+			let blogs = null
+			const search = req.query.search
+			// console.log('search key: ' + search)
+
+			 if (search) {
+			    blogs = await Blog.findAll({
+			      where: {
+			        $or: [
+			          'title', 'content', 'category'
+			        ].map(key => ({
+			          [key]: {
+			            $like: `%${search}%`,                
+			          }
+			        })),
+			      },
+			      order: [['updatedAt', 'DESC']]
+			    })
+			  } else {
+			    blogs = await Blog.findAll({
+			      order: [['updatedAt', 'DESC']]
+			    })
+			  }
+			  res.send(blogs)
+			} catch (err) {
+			  res.status(500).send({
+			    error: 'an error has occured trying to fetch the blogs'
 			})
 		}
 	},

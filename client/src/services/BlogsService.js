@@ -3,9 +3,14 @@ import Api from '@/services/Api'
 // Api = baseURL ที่ return เป็น function ออกมา
 // Api = http://localhost:5000/ จาก Server
 export default {
-	index () {
+	index (search) {
 		// http://localhost:5000/blogs
-		return Api().get('blogs')
+		// return Api().get('blogs')
+		return Api().get('blogs',{
+			params : {
+				search : search
+			}
+		})
 	},
 	show (blogId) {
 		return Api().get('blog/'+blogId)
