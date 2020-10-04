@@ -1,11 +1,16 @@
 <template>
-  <div>
+  <div class="container blog-wrapper">
+    <main-header navsel="back"></main-header>
     <h1>Edit Blog</h1>
     <form v-on:submit.prevent = "editBlog">
-      <p>title: <input type="text" v-model="blog.title"></p>
+      <!-- <p>title: <input type="text" v-model="blog.title"></p> -->
+      <p>
+        <label for="" class="control-label">Title: </label>
+        <input type="text" v-model="blog.title" class="form-control">        
+      </p>
       <transition name="fade">
         <div class="thumbnail-pic" v-if="blog.thumbnail != 'null'">
-          <img :src="BASE_URL+blog.thumbnail" alt="thumbnail">
+          <img class="img-thumbnail" style="padding:5px;" :src="BASE_URL+blog.thumbnail" alt="thumbnail">
         </div>
       </transition>
       <form id="upload-form" enctype="multipart/form-data" novalidate >
@@ -27,23 +32,28 @@
       <div>
         <transition-group tag="ul" name="fade" class="pictures">        
           <li v-for="picture in pictures" v-bind:key="picture.id">              
-            <img style="margin-bottom:5px;" :src="BASE_URL+picture.name" alt="picture image">              
-            <br />            
-            <button v-on:click.prevent="delFile(picture)">Delete</button>
-            <button v-on:click.prevent="useThumbnail(picture.name)">Thumbnail</button>
+            <img class="img-thumbnail" style="margin-bottom:5px;" :src="BASE_URL+picture.name" alt="picture image">              
+            <br/>            
+            <button class="btn btn-xs btn-info" v-on:click.prevent="useThumbnail(picture.name)">Thumbnail</button>
+            <button class="btn btn-xs btn-danger" v-on:click.prevent="delFile(picture)">Delete</button>
           </li>
         </transition-group>
         <div class="clearfix"></div>
       </div>     
       <p><strong>content: </strong></p>
       <p><vue-ckeditor v-model.lazy="blog.content" :config="config" @blur="onBlur($event)" @focus="onFocus($event)" /></p>
-      <p>category: <input type="text" v-model="blog.category"></p>
-      <p>status: <input type="text" v-model="blog.status"></p>
+        <p>
+          <label class="control-label">Category :</label>
+          <input type="text" v-model="blog.category" class="form-control">
+        </p>
+    <!--<p>category: <input type="text" v-model="blog.category"></p>
+        <p>status: <input type="text" v-model="blog.status"></p> -->
       <p>
-        <button type="submit">update blog</button>
-        <button v-on:click="navigateTo('/blogs')">กลับ</button>
+        <button class="btn btn-warning" type="submit">update blog</button>
+        <button class="btn btn-default" v-on:click="navigateTo('/blogs')">กลับ</button>
       </p>
-    </form>  
+    </form>
+      <br>  
   </div>
 </template>
 <script>

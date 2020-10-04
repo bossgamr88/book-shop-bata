@@ -16,12 +16,19 @@
     <div class="blog-header">
       <h2>ส่วนจัดการบล็อก</h2>
       <div>
-      	<form>
-      		<input type="text" v-model="search" placeholder="Search">
+      	<form class="form-inline form-search">
+      	  <div class="form-group">              
+      	    <div class="input-group">                        
+      	    <input type="text" v-model="search" class="form-control" 
+      	    id="exampleInputAmount" placeholder="Search">
+      	    <div class="input-group-addon"><i class="fas fa-search"></i></div>
+      	    </div>
+      	  </div>                
       	</form>
       </div>          
-      <div>
-        <button v-on:click="navigateTo('/blog/create')">create blog</button>        
+      <div class="create-blog">
+        <button class="btn btn-success btn-sm" v-on:click="navigateTo('/blog/create')">
+        	<i class="fas fa-file"></i> Create blog</button>
         <strong> จำนวน blog: </strong> {{results.length}}</div>
       <br>
       <ul class="categories">
@@ -52,9 +59,9 @@
         <!-- <p>status: {{ blog.status }}</p> -->
 
         <p>
-          <button v-on:click="navigateTo('/blog/'+ blog.id)">ดู blog</button> 
-          <button v-on:click="navigateTo('/blog/edit/'+ blog.id)">แก้ไข blog</button>
-          <button v-on:click="deleteBlog(blog)">ลบข้อมูล</button>
+          <button class="btn btn-sm btn-info" v-on:click="navigateTo('/blog/'+ blog.id)">ดู blog</button> 
+          <button class="btn btn-sm btn-warning" v-on:click="navigateTo('/blog/edit/'+ blog.id)">แก้ไข blog</button>
+          <button class="btn btn-sm btn-danger" v-on:click="deleteBlog(blog)">ลบข้อมูล</button>
         </p>
       </div>
       <div class="clearfix"></div> 
@@ -282,7 +289,9 @@
 	  background: seagreen;
 	}
 
-
+	.create-blog {
+	  margin-top: 10px;
+	}
 
 
 </style>
