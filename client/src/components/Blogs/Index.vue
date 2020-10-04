@@ -1,5 +1,18 @@
 <template>
-  <div>    
+  <div>
+<!--   	<div class="container">
+  		<div class="row">
+  			<div class="col-md-4 col1">
+  				column #1
+  			</div>
+  			<div class="col-md-4 col2">
+  				column #2
+  			</div>
+  			<div class="col-md-4 col3">
+  				column #3
+  			</div>
+  		</div>
+  	</div> -->
     <div class="blog-header">
       <h2>ส่วนจัดการบล็อก</h2>
       <div>
@@ -182,6 +195,16 @@
 }
 </script>
 <style scoped>
+
+/*.col3 {
+	border: solid 1px red;
+}
+.col1 {
+	border: solid 1px red;
+}
+.col2 {
+	border: solid 1px red;
+}*/
 	.categories {
 	  padding: 0;
 	  list-style: none;
