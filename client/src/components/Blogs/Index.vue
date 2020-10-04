@@ -9,12 +9,19 @@
       </div>          
       <div>
         <button v-on:click="navigateTo('/blog/create')">create blog</button>        
-        <strong> จำนวน blog: </strong> {{blogs.length}}</div>
+        <strong> จำนวน blog: </strong> {{results.length}}</div>
       <br>
-    </div>
-    <div v-if="blogs.length === 0" class="empty-blog">
-        *** ไม่มีข้อมูล ***
-    </div>
+      <ul class="categories">
+      	<li v-for="cate in category" v-bind:key="cate.index"> 
+      		<a v-on:click.prevent="setCategory(cate)" href="#">{{ cate }}</a>
+      	</li>
+      	<li class="clear">
+      		<a v-on:click.prevent="setCategory('')"  href="">Clear</a>
+      	</li>
+      </ul>
+      <div class="clearfix"></div> 
+    </div>   
+    <transition-group name="fade">
     <div v-for="blog in blogs" v-bind:key="blog.id" class="blog-list">
       <!-- <p>id: {{ blog.id }}</p> -->
       <div class="blog-pic">
@@ -37,10 +44,14 @@
           <button v-on:click="deleteBlog(blog)">ลบข้อมูล</button>
         </p>
       </div>
-      <div class="clearfix"></div>      
+      <div class="clearfix"></div> 
     </div>
+    </transition-group> 
+    <div v-if="blogs.length === 0 && loading === false" class="empty-blog">
+            *** ไม่มีข้อมูล ***
+    </div> 
     <div id="blog-list-bottom">
-    	<div v-if="blogs.length === results.length && results.length > 0 ">
+    	<div class="blog-load-finished" v-if="blogs.length === results.length && results.length > 0 && loading === false ">
     		ดูข้อมูลครบเเล้ว
     	</div>
     </div>
@@ -62,7 +73,9 @@
 				blogs : [],
 				BASE_URL: "http://localhost:5000/assets/uploads/",
 				search : '',
-				results : []
+				results : [],
+				category : [],
+				loading : false,
 			}
 		},
 		watch: {  
@@ -83,9 +96,24 @@
 		    async handler (value) {                     
 		      // this.blogs = (await BlogsService.index(value)).data                  
 		      this.blogs = []
-		      this.results = []          
+		      this.results = []
+		      this.loading = true             
 		      this.results = (await BlogsService.index(value)).data       
-		      this.appendResults()    
+		      this.appendResults() 
+
+		      this.results.forEach(blog => {
+		      	// console.log(this.category.indexOf(blog.category))
+		      	if (this.category.length > 0) {
+		      		if (this.category.indexOf(blog.category) === -1 ) {
+		      			this.category.push(blog.category)
+		      		}
+		      	}else {
+		      		this.category.push(blog.category)
+		      	}
+		      })  
+		      this.loading = false
+		      this.search = value
+		      // console.log(this.category) 
 		    }
 		  }
 		},
@@ -115,6 +143,14 @@
 		  //     name: 'login'
 		  //   })
 		  // },
+		  setCategory(keyword){
+		  	if (keyword === '') {
+		  		this.search = ''
+		  		// console.log('null')		  	
+		  	} else {
+		  		this.search = keyword
+		  	}
+		  },
 
 		  appendResults: function () {
 		    if (this.blogs.length < this.results.length) {
@@ -146,6 +182,25 @@
 }
 </script>
 <style scoped>
+	.categories {
+	  padding: 0;
+	  list-style: none;
+	  float: left;
+	}
+	.categories li {
+	  float: left;
+	  padding: 2px;
+	}
+	.categories li a {
+	  padding: 5px 10px 5px 10px;
+	  background:paleturquoise; 
+	  color: black;
+	  text-decoration: none;
+	}
+	.categories li.clear a {
+	  background: tomato;
+	  color: white
+	}
 	.empty-blog {
 		width: 100%;
 		text-align: center;
@@ -188,10 +243,20 @@
 	}
 
 	#blog-list-bottom{
+	  padding-top: 4px;
+	}
+
+/*	#blog-list-bottom{
 	  padding:4px;
 	  text-align: center;
 	  background: seagreen;
 	  color:white;
+	}*/
+	
+	.blog-load-finished{
+	  padding:4px;
+	  text-align: center;
+	  background: seagreen;
 	}
 
 
