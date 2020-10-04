@@ -39,6 +39,11 @@
       </div>
       <div class="clearfix"></div>      
     </div>
+    <div id="blog-list-bottom">
+    	<div v-if="blogs.length === results.length && results.length > 0 ">
+    		ดูข้อมูลครบเเล้ว
+    	</div>
+    </div>
   </div>
 </template>
 
@@ -46,12 +51,18 @@
 <script>
 	import BlogsService from '@/services/BlogsService'
 	import _ from 'lodash'
+	import ScrollMonitor from 'scrollMonitor'
+
+	let LOAD_NUM = 3
+	let pageWatcher 
+
 	export default {
 		data(){
 			return{
 				blogs : [],
 				BASE_URL: "http://localhost:5000/assets/uploads/",
 				search : '',
+				results : []
 			}
 		},
 		watch: {  
@@ -70,16 +81,31 @@
 		  '$route.query.search': {
 		    immediate: true,
 		    async handler (value) {                     
-		      this.blogs = (await BlogsService.index(value)).data                  
+		      // this.blogs = (await BlogsService.index(value)).data                  
+		      this.blogs = []
+		      this.results = []          
+		      this.results = (await BlogsService.index(value)).data       
+		      this.appendResults()    
 		    }
 		  }
 		},
-		async created(){
-			try {
-				this.blogs = (await BlogsService.index()).data
-			} catch(error) {	
-				console.log(error);
-			}
+		// async created(){
+		// 	try {
+		// 		this.blogs = (await BlogsService.index()).data
+		// 	} catch(error) {	
+		// 		console.log(error);
+		// 	}
+		// },
+		updated () {
+		  let sens = document.querySelector('#blog-list-bottom')
+		  pageWatcher = ScrollMonitor.create(sens)
+		  pageWatcher.enterViewport(this.appendResults)
+		},
+		beforeUpdated () {
+		  if (pageWatcher) {
+		    pageWatcher.destroy()
+		    pageWatcher = null
+		  }
 		},
 		methods: {
 		  // logout () {
@@ -89,6 +115,16 @@
 		  //     name: 'login'
 		  //   })
 		  // },
+
+		  appendResults: function () {
+		    if (this.blogs.length < this.results.length) {
+		      let toAppend = this.results.slice(
+		        this.blogs.length,
+		        LOAD_NUM + this.blogs.length
+		      )
+		      this.blogs = this.blogs.concat(toAppend)
+		    }
+		  },
 		  navigateTo (route) {
 		    this.$router.push(route)
 		},
@@ -147,5 +183,18 @@
 		margin-left: auto;
 		margin-right: auto;
 	}
+	{
+	  margin-right: auto;
+	}
+
+	#blog-list-bottom{
+	  padding:4px;
+	  text-align: center;
+	  background: seagreen;
+	  color:white;
+	}
+
+
+
 
 </style>
