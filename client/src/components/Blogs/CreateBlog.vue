@@ -1,8 +1,11 @@
 <template>
-  <div>
+  <div class="container blog-wrapper">
     <h1>Create Blog</h1>
     <form v-on:submit.prevent = "createBlog">
-      <p>title: <input type="text" v-model="blog.title"></p>
+      <p>
+        <label for="" class="control-label">Title: </label>
+        <input type="text" v-model="blog.title">
+      </p>
       <transition name="fade">
       <div class="thumbnail-pic" v-if="blog.thumbnail != 'null' ">
         <img :src="BASE_URL+blog.thumbnail" alt="thumbnail">
@@ -44,9 +47,14 @@
       </div>  
       <p><strong>content: </strong></p>
       <p><vue-ckeditor v-model.lazy="blog.content" :config="config" @blur="onBlur($event)" @focus="onFocus($event)" /></p>
-      <p>category: <input type="text" v-model="blog.category"></p>
-      <p>status: <input type="text" v-model="blog.status"></p>
-      <p><button type="submit">create blog</button></p>
+      <p>
+        <label class="control-label">Category :</label>
+        <input type="text" v-model="blog.category"></p>
+      <!-- <p>status: <input type="text" v-model="blog.status"></p> -->
+      <p>
+        <button class="btn btn-success" type="submit">Create Blog</button>
+        <button class="btn btn-default" type="button" v-on:click="navigateTo('/blogs')">Back</button>
+      </p>
     </form>       
   </div>
 </template>
