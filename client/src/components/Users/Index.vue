@@ -97,6 +97,7 @@
 		    console.log('search: ' + this.search)
 		    this.$router.push(route)
 		  }, 700),
+		  
 		  '$route.query.search': {
 		    immediate: true,
 		    async handler (value) {            
