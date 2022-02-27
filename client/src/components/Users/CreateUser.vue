@@ -11,6 +11,7 @@
 	</div> -->
 
 	<div class="user-wrapper container">
+			  <main-header navsel="back"></main-header>
 	  <h1>เพิ่มผู้ใช้งาน</h1>
 	  <div class="form-wrapper">
 	    <form v-on:submit.prevent = "createUser" class="form-horizontal">

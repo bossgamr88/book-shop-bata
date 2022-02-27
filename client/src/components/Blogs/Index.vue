@@ -1,5 +1,6 @@
 <template>
   <div>
+	  <main-header navsel="back"></main-header>
 <!--   	<div class="container">
   		<div class="row">
   			<div class="col-md-4 col1">

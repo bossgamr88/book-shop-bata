@@ -9,6 +9,8 @@
 	</div>	 -->	
 
 	<div class="component-wrapper container">
+			  <main-header navsel="back"></main-header>
+
 		<main-header navsel="back"></main-header>
 		<h1>แสดงข้อมูลผู้ใช้งาน</h1>
 

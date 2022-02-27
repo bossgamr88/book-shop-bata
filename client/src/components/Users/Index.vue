@@ -17,6 +17,7 @@
 		</div> -->
 
 		<div>
+				  <main-header navsel="back"></main-header>
 			<div class="user-header container">
 				<h2>ส่วน</h2>
 				<div>
@@ -58,12 +59,6 @@
 			       <div class="user-load-finished" v-if="users.length === results.length && results.length > 0">โหลดข้อมูลครบแล้ว</div>
 			     </div>
 			   </div>
-			</div>
-		</div>
-
-
-
-
 </template>
 
 <script>

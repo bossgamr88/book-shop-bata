@@ -1,6 +1,7 @@
 <template>
 <div>
-	<front-header />
+	<main-header navsel="front"></main-header>
+	<!-- <front-header /> -->
 	<div class="hero-warpper">
     <div class="component-wrapper">
         <div class="hero">

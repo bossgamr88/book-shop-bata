@@ -20,6 +20,8 @@
 	</div> -->
 
 	<div class="user-wrapper container">
+			  <main-header navsel="back"></main-header>
+
 		<main-header navsel="back"></main-header>
 		<h1>แก้ไขข้อมูลผู้ใช้งาน</h1>
 		<div class="form-wrapper">
