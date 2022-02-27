@@ -6,11 +6,13 @@ import router from './router'
 import {sync} from 'vuex-router-sync'
 import store from './store'
 import BackHeader from '@/components/Header.vue'
+import FrontHeader from '@/components/FrontHeader.vue'
 
 
 
 Vue.config.productionTip = false
 Vue.component('back-header',BackHeader)
+Vue.component('front-header',FrontHeader)
 sync(store,router)
 
 /* eslint-disable no-new */

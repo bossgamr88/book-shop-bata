@@ -1,0 +1,292 @@
+<template>
+<div>
+	<front-header />
+	<div class="hero-warpper">
+    <div class="component-wrapper">
+        <div class="hero">
+            <img src="@/assets/logo.png" class="logo" style="float:left">
+            <h1>Webblog from nodejs + vue2 Ebook 2019</h1>
+            <p>By Gooddev.ME</p>
+        </div>
+    </div>
+	</div>
+
+    <div class="clearfix"></div>
+
+    <div class="blog-header">
+      <div>
+      	<form class="form-inline form-search">
+      	    <span><strong> จำนวน blog: </strong> {{results.length}}</span>
+			&nbsp;
+			<div class="form-group">
+				<div class="input-group">                        
+      	    	<input type="text" v-model="search" class="form-control" 
+      	   	 id="exampleInputAmount" placeholder="Search">
+      	    <div class="input-group-addon"><i class="fas fa-search"></i></div>
+      	    </div>
+			</div>
+		</form>
+      </div>          
+	<br>
+      <ul class="categories">
+      	<li v-for="cate in category" v-bind:key="cate.index"> 
+      		<a v-on:click.prevent="setCategory(cate)" href="#">{{ cate }}</a>
+      	</li>
+      	<li class="clear">
+      		<a v-on:click.prevent="setCategory('')"  href="">Clear</a>
+      	</li>
+      </ul>
+      <div class="clearfix"></div> 
+
+    </div>  
+
+    <transition-group name="fade">
+
+    <div v-for="blog in blogs" v-bind:key="blog.id" class="blog-list">
+      <div class="blog-pic">
+        <transition name="fade">
+          <div class="thumbnail-pic" v-if="blog.thumbnail != 'null'">
+            <img :src="BASE_URL+blog.thumbnail" alt="thumbnail">
+          </div>
+        </transition>  
+      </div>
+      <h3>{{ blog.title }}</h3>
+      <div v-html="blog.content.slice(0,200) + '...'"></div>      
+      <div class="blog-info">
+        <p><strong>Category:</strong> {{ blog.category }}</p>
+        <p><strong>Create:</strong> {{ blog.createdAt }}</p>
+
+        <p>
+          <button class="btn btn-sm btn-info" v-on:click="navigateTo('/blog/'+ blog.id)">ดู blog</button> 
+        </p>
+      </div>
+      <div class="clearfix"></div> 
+    </div>
+
+    </transition-group> 
+
+    <div v-if="blogs.length === 0 && loading === false" class="empty-blog">
+            *** ไม่มีข้อมูล ***
+    </div> 
+    <div id="blog-list-bottom">
+    	<div class="blog-load-finished" v-if="blogs.length === results.length && results.length > 0 && loading === false ">
+    		ดูข้อมูลครบเเล้ว
+    	</div>
+    </div>
+
+</div>
+
+</template>
+
+<script>
+	import BlogsService from '@/services/BlogsService'
+	import _ from 'lodash'
+	import ScrollMonitor from 'scrollMonitor'
+
+	let LOAD_NUM = 3
+	let pageWatcher 
+
+	export default {
+		data(){
+			return{
+				blogs : [],
+				BASE_URL: "http://localhost:5000/assets/uploads/",
+				search : '',
+				results : [],
+				category : [],
+				loading : false,
+			}
+		},
+		watch: {  
+		  search: _.debounce(async function (value) {
+		    const route = {
+		      name: 'front'
+		    }
+		    if(this.search !== '') {
+		      route.query = {
+		        search: this.search
+		      }
+		    }
+		    this.$router.push(route)
+		  }, 700),
+		  '$route.query.search': {
+		    immediate: true,
+		    async handler (value) {                     
+		      this.blogs = []
+		      this.results = []
+		      this.loading = true             
+		      this.results = (await BlogsService.index(value)).data       
+		      this.appendResults() 
+
+		      this.results.forEach(blog => {
+		      	if (this.category.length > 0) {
+		      		if (this.category.indexOf(blog.category) === -1 ) {
+		      			this.category.push(blog.category)
+		      		}
+		      	}else {
+		      		this.category.push(blog.category)
+		      	}
+		      })  
+		      this.loading = false
+		      this.search = value
+		    }
+		  }
+		},
+		updated () {
+		  let sens = document.querySelector('#blog-list-bottom')
+		  pageWatcher = ScrollMonitor.create(sens)
+		  pageWatcher.enterViewport(this.appendResults)
+		},
+		beforeUpdated () {
+		  if (pageWatcher) {
+		    pageWatcher.destroy()
+		    pageWatcher = null
+		  }
+		},
+		methods: {
+
+		  appendResults: function () {
+		    if (this.blogs.length < this.results.length) {
+		      let toAppend = this.results.slice(
+		        this.blogs.length,
+		        LOAD_NUM + this.blogs.length
+		      )
+		      this.blogs = this.blogs.concat(toAppend)
+		    }
+		  },
+		  navigateTo (route) {
+		    this.$router.push(route)
+		},
+		 async deleteBlog (blog) {
+		    let result = confirm("Want to delete?")
+		    if (result) {
+		      try {
+		        await BlogsService.delete(blog)
+		        this.refreshData()
+		      } catch (err) {
+		        console.log(err)
+		      }
+		    }
+		  },
+		  async refreshData() {
+		    this.blogs = (await BlogsService.index()).data
+		 },
+		setCategory(keyword){
+		  	if (keyword === '') {
+		  		this.search = ''
+		  	} else {
+		  		this.search = keyword
+		  	}
+		},
+	}
+}
+</script>
+<style scoped>
+	.component-wrapper{
+		padding-left: 5px;
+		padding-right: 5px;
+	}
+	.hero{
+		margin-top:80px;
+		max-width: 900px;
+		margin-left: auto;
+		margin-right: auto;
+		border-radius: 5px;
+		background: darkcyan;
+		height: 250px;
+		color: white;
+		padding: 20px;
+	}
+	.logo{
+		padding-left: 20px;
+	}
+	.categories {
+	  padding: 0;
+	  list-style: none;
+	  float: left;
+	}
+	.categories li {
+	  float: left;
+	  padding: 2px;
+	}
+	.categories li a {
+	  padding: 5px 10px 5px 10px;
+	  background:paleturquoise; 
+	  color: black;
+	  text-decoration: none;
+	}
+	.categories li.clear a {
+	  background: tomato;
+	  color: white
+	}
+	.empty-blog {
+		width: 100%;
+		text-align: center;
+		padding : 10px;
+		background: darksalmon;
+		color : white;
+	}
+
+	/* thumbnail */
+	.thumbnail-pic img {
+		width: 200px;
+		padding: 5px 10px 0px 0px;
+	}
+	.blog-info {
+		float: left;
+	}
+	.blog-pic {
+		float: left;
+	}
+	.clearfix {
+		clear: both;
+	}
+
+	.blog-list {
+		border: 1px solid #dfdfdf;
+		margin-bottom: 10px;
+		max-width: 900px;
+		margin-left: auto;
+		margin-right: auto;
+		padding: 5px;
+		box-shadow: 0 2px 4px 0 rgba(0,0,0,1);
+	}
+	.blog-header {
+		margin-top: 80px;
+		max-width: 900px;
+		margin-left: auto;
+		margin-right: auto;
+	}
+	*{
+	  margin-right: auto;
+	}
+
+	#blog-list-bottom{
+	  padding-top: 4px;
+	}
+
+/*	#blog-list-bottom{
+	  padding:4px;
+	  text-align: center;
+	  background: seagreen;
+	  color:white;
+	}*/
+	
+	.blog-load-finished{
+	  padding:4px;
+	  text-align: center;
+	  background: seagreen;
+	}
+
+	.create-blog {
+	  margin-top: 10px;
+	}
+
+    @media (max-width:768px){
+        .logo{
+            width: 120px;
+        }
+    }
+
+
+</style>

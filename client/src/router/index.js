@@ -15,6 +15,9 @@ import BlogShow from '@/components/Blogs/ShowBlog'
 import BlogCreate from '@/components/Blogs/CreateBlog'
 import BlogEdit from '@/components/Blogs/EditBlog'
 
+// Front
+import FrontIndex from '@/components/Fronts/Index'
+
 
 // Upload Testing
 import Upload from '@/components/Utils/Upload'
@@ -89,6 +92,12 @@ export default new Router({
       path: '/upload',
       name: 'upload',
       component: Upload
+    },
+    {
+      // front
+      path: '/front',
+      name: 'front',
+      component: FrontIndex
     },
   ]
 })
