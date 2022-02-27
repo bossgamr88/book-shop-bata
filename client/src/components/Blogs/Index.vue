@@ -78,7 +78,6 @@
   </div>
 </template>
 
-</template>
 <script>
 	import BlogsService from '@/services/BlogsService'
 	import _ from 'lodash'
@@ -268,7 +267,7 @@
 		margin-left: auto;
 		margin-right: auto;
 	}
-	{
+	*{
 	  margin-right: auto;
 	}
 
