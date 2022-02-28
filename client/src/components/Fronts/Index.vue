@@ -58,7 +58,7 @@
         <p><strong>Create:</strong> {{ blog.createdAt }}</p>
 
         <p>
-          <button class="btn btn-sm btn-info" v-on:click="navigateTo('/blog/'+ blog.id)">ดู blog</button> 
+          <button class="btn btn-sm btn-info" v-on:click="navigateTo('/front/read/'+ blog.id)">ดู blog</button> 
         </p>
       </div>
       <div class="clearfix"></div> 

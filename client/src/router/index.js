@@ -17,7 +17,7 @@ import BlogEdit from '@/components/Blogs/EditBlog'
 
 // Front
 import FrontIndex from '@/components/Fronts/Index'
-
+import FrontShow from '@/components/Fronts/ShowBlog'
 
 // Upload Testing
 import Upload from '@/components/Utils/Upload'
@@ -98,6 +98,12 @@ export default new Router({
       path: '/front',
       name: 'front',
       component: FrontIndex
+    },
+    {
+      // front blog
+      path: '/front/read/:blogId',
+      name: 'front-read',
+      component: FrontShow
     },
   ]
 })

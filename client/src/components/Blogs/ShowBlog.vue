@@ -1,6 +1,6 @@
 <template>
 <div class="container component-wrapper">
-  	<main-header navsel="front"></main-header>
+  	<main-header navsel="back"></main-header>
   <div class="blog-wrapper" v-if="blog != null">
     <h1>{{ blog.title }}</h1>
     <p><strong>Category: </strong>: {{ blog.category }}</p>
