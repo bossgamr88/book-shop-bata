@@ -66,6 +66,7 @@ module.exports = (app) => {
 	app.delete('/user/:userId',UserController.delete)
 
 	app.post('/login',UserAuthenController.login)
+  app.post('/front/login',UserAuthenController.clientLogin)
 
 	// blog router
 	app.post('/blog',BlogController.create)
